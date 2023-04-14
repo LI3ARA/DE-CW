@@ -2,16 +2,16 @@
 	"name": "IngestedDataCSV",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage1",
+			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
+				"type": "AzureBlobStorageLocation",
 				"fileName": "movies.csv",
-				"fileSystem": "loaded"
+				"container": "loaded"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
