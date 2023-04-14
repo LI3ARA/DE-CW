@@ -34,7 +34,7 @@
 					},
 					"name": "MoviesByLanguage",
 					"rejectedDataLinkedService": {
-						"referenceName": "AzureBlobStorage1",
+						"referenceName": "AzureBlobStorage2",
 						"type": "LinkedServiceReference"
 					}
 				}
@@ -91,9 +91,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> MoviesByYear",
 				"aggregateByTheLanguage sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> MoviesByLanguage"
+				"     validateSchema: false) ~> MoviesByLanguage"
 			]
 		}
 	}
