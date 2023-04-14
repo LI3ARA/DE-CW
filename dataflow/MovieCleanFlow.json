@@ -22,14 +22,14 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "OutputCSV",
+						"referenceName": "MoviesByYear",
 						"type": "DatasetReference"
 					},
 					"name": "MoviesByYear"
 				},
 				{
 					"dataset": {
-						"referenceName": "OutputCSV",
+						"referenceName": "MoviesByLanguage",
 						"type": "DatasetReference"
 					},
 					"name": "MoviesByLanguage",
@@ -80,7 +80,8 @@
 				"YearExtraction aggregate(groupBy(year),",
 				"     MoviesCount = count()) ~> aggregateMoviesByYear",
 				"YearExtraction aggregate(groupBy(original_language),",
-				"     numberOfMovies = count()) ~> aggregateByTheLanguage",
+				"     numberOfMovies = count(),",
+				"     partitionBy('hash', 1)) ~> aggregateByTheLanguage",
 				"YearExtraction sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
