@@ -7,7 +7,90 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "id",
+				"type": "varchar"
+			},
+			{
+				"name": "title",
+				"type": "varchar"
+			},
+			{
+				"name": "genres",
+				"type": "varchar"
+			},
+			{
+				"name": "original_language",
+				"type": "varchar"
+			},
+			{
+				"name": "overview",
+				"type": "text"
+			},
+			{
+				"name": "popularity",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 3
+			},
+			{
+				"name": "production_companies",
+				"type": "varchar"
+			},
+			{
+				"name": "release_date",
+				"type": "date"
+			},
+			{
+				"name": "budget",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "revenue",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "runtime",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "release_status",
+				"type": "varchar"
+			},
+			{
+				"name": "tagline",
+				"type": "text"
+			},
+			{
+				"name": "vote_average",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 3
+			},
+			{
+				"name": "vote_count",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "credits",
+				"type": "varchar"
+			},
+			{
+				"name": "keywords",
+				"type": "text"
+			},
+			{
+				"name": "recommendations",
+				"type": "varchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "Movies"

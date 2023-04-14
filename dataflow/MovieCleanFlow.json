@@ -18,7 +18,7 @@
 						"referenceName": "OutputCSV",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "MoviesCleaned"
 				},
 				{
 					"dataset": {
@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "MoviesByYear"
+				},
+				{
+					"dataset": {
+						"referenceName": "OutputCSV",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesByLanguage"
 				}
 			],
 			"transformations": [
@@ -35,6 +42,9 @@
 				{
 					"name": "aggregateMoviesByYear",
 					"description": "Get the sum of movies released in each year"
+				},
+				{
+					"name": "aggregateByTheLanguage"
 				}
 			],
 			"scriptLines": [
@@ -64,14 +74,20 @@
 				"MoviesData derive(year = toInteger(trim(right(release_date,4)))) ~> YearExtraction",
 				"YearExtraction aggregate(groupBy(year),",
 				"     MoviesCount = count()) ~> aggregateMoviesByYear",
+				"YearExtraction aggregate(groupBy(original_language),",
+				"     numberOfMovies = count()) ~> aggregateByTheLanguage",
 				"YearExtraction sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"     skipDuplicateMapOutputs: true) ~> MoviesCleaned",
 				"aggregateMoviesByYear sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> MoviesByYear"
+				"     skipDuplicateMapOutputs: true) ~> MoviesByYear",
+				"aggregateByTheLanguage sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> MoviesByLanguage"
 			]
 		}
 	}
