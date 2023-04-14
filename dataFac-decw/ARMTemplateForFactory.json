@@ -519,6 +519,7 @@
 						]
 					}
 				],
+				"concurrency": 4,
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
@@ -574,7 +575,9 @@
 								"coreCount": 16,
 								"computeType": "General"
 							},
-							"traceLevel": "Fine"
+							"traceLevel": "Fine",
+							"runConcurrently": true,
+							"continueOnError": true
 						}
 					}
 				],
@@ -1198,9 +1201,7 @@
 						"     numberOfMovies = count(),",
 						"     partitionBy('hash', 1)) ~> aggregateByTheLanguage",
 						"YearExtraction sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> MoviesCleaned",
+						"     validateSchema: false) ~> MoviesCleaned",
 						"aggregateMoviesByYear sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     skipDuplicateMapInputs: true,",
