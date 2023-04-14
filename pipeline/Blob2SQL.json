@@ -104,7 +104,7 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
+							"fileListPath": "curated",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -354,7 +354,7 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
+							"fileListPath": "byyear",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -425,7 +425,7 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
+							"fileListPath": "by-language",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -457,7 +457,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSqlTableLanguage",
 						"type": "DatasetReference"
 					}
 				]
