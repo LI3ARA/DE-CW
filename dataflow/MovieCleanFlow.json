@@ -1,0 +1,78 @@
+{
+	"name": "MovieCleanFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "IngestedDataCSV",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OutputCSV",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "OutputCSV",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesByYear"
+				}
+			],
+			"transformations": [
+				{
+					"name": "YearExtraction"
+				},
+				{
+					"name": "aggregateMoviesByYear",
+					"description": "Get the sum of movies released in each year"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          title as string,",
+				"          genres as string,",
+				"          original_language as string,",
+				"          overview as string,",
+				"          popularity as string,",
+				"          production_companies as string,",
+				"          release_date as string,",
+				"          budget as string,",
+				"          revenue as string,",
+				"          runtime as string,",
+				"          status as string,",
+				"          tagline as string,",
+				"          vote_average as string,",
+				"          vote_count as string,",
+				"          credits as string,",
+				"          keywords as string,",
+				"          recommendations as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> MoviesData",
+				"MoviesData derive(year = toInteger(trim(right(release_date,4)))) ~> YearExtraction",
+				"YearExtraction aggregate(groupBy(year),",
+				"     MoviesCount = count()) ~> aggregateMoviesByYear",
+				"YearExtraction sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"aggregateMoviesByYear sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> MoviesByYear"
+			]
+		}
+	}
+}

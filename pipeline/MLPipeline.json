@@ -1,9 +1,9 @@
 {
-	"name": "Blob2SQL",
+	"name": "MLPipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "Ingesting Data",
+				"name": "Data Ingestion",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -61,28 +61,29 @@
 				]
 			},
 			{
-				"name": "Execute MovieCleaning Pipeline",
-				"type": "ExecutePipeline",
+				"name": "MachineLearning Execute Piepline",
+				"type": "SynapseNotebook",
 				"dependsOn": [
 					{
-						"activity": "Ingesting Data",
+						"activity": "Data Ingestion",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "MovieDataCleaning",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
+					"snapshot": true
 				}
 			}
 		],
-		"annotations": [],
-		"lastPublishTime": "2023-04-13T10:29:06Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }
