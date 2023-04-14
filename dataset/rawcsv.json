@@ -1,0 +1,105 @@
+{
+	"name": "rawcsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "movies.csv",
+				"container": "data-raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "title",
+				"type": "String"
+			},
+			{
+				"name": "genres",
+				"type": "String"
+			},
+			{
+				"name": "original_language",
+				"type": "String"
+			},
+			{
+				"name": "overview",
+				"type": "String"
+			},
+			{
+				"name": "popularity",
+				"type": "String"
+			},
+			{
+				"name": "production_companies",
+				"type": "String"
+			},
+			{
+				"name": "release_date",
+				"type": "String"
+			},
+			{
+				"name": "budget",
+				"type": "String"
+			},
+			{
+				"name": "revenue",
+				"type": "String"
+			},
+			{
+				"name": "runtime",
+				"type": "String"
+			},
+			{
+				"name": "status",
+				"type": "String"
+			},
+			{
+				"name": "tagline",
+				"type": "String"
+			},
+			{
+				"name": "vote_average",
+				"type": "String"
+			},
+			{
+				"name": "vote_count",
+				"type": "String"
+			},
+			{
+				"name": "credits",
+				"type": "String"
+			},
+			{
+				"name": "keywords",
+				"type": "String"
+			},
+			{
+				"name": "poster_path",
+				"type": "String"
+			},
+			{
+				"name": "backdrop_path",
+				"type": "String"
+			},
+			{
+				"name": "recommendations",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

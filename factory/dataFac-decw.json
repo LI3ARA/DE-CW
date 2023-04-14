@@ -1,0 +1,9 @@
+{
+	"name": "dataFac-decw",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "7a97a0b6-6103-4c21-8e1e-d68da8cf3ddb",
+		"tenantId": "9a5b5691-a451-49e7-93de-9c61cb04328b"
+	}
+}
