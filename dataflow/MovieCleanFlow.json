@@ -32,7 +32,11 @@
 						"referenceName": "OutputCSV",
 						"type": "DatasetReference"
 					},
-					"name": "MoviesByLanguage"
+					"name": "MoviesByLanguage",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -57,20 +61,21 @@
 				"          popularity as string,",
 				"          production_companies as string,",
 				"          release_date as string,",
-				"          budget as string,",
-				"          revenue as string,",
-				"          runtime as string,",
+				"          budget as long,",
+				"          revenue as long,",
+				"          runtime as integer,",
 				"          status as string,",
 				"          tagline as string,",
-				"          vote_average as string,",
-				"          vote_count as string,",
+				"          vote_average as float,",
+				"          vote_count as integer,",
 				"          credits as string,",
 				"          keywords as string,",
 				"          recommendations as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> MoviesData",
+				"     ignoreNoFilesFound: false,",
+				"     maxColumns: 22) ~> MoviesData",
 				"MoviesData derive(year = toInteger(trim(right(release_date,4)))) ~> YearExtraction",
 				"YearExtraction aggregate(groupBy(year),",
 				"     MoviesCount = count()) ~> aggregateMoviesByYear",
