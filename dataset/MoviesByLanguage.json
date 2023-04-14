@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "byLanguage",
-				"container": "curated"
+				"container": "by-language"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
