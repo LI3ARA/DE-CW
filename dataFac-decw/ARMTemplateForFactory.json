@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"AzureBlobStorage2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
+		},
 		"AzureDataLakeStorage1_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
@@ -69,7 +73,7 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
@@ -147,7 +151,7 @@
 								"type": "DelimitedTextSource",
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
+									"fileListPath": "curated",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -399,7 +403,7 @@
 								"type": "DelimitedTextSource",
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
+									"fileListPath": "byyear",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -472,7 +476,7 @@
 								"type": "DelimitedTextSource",
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
+									"fileListPath": "by-language",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -505,7 +509,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureSqlTable1",
+								"referenceName": "AzureSqlTableLanguage",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -527,7 +531,8 @@
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/MoviesByYear')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTableYear')]",
-				"[concat(variables('factoryId'), '/datasets/MoviesByLanguage')]"
+				"[concat(variables('factoryId'), '/datasets/MoviesByLanguage')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTableLanguage')]"
 			]
 		},
 		{
@@ -562,7 +567,7 @@
 							},
 							"staging": {},
 							"compute": {
-								"coreCount": 8,
+								"coreCount": 16,
 								"computeType": "General"
 							},
 							"traceLevel": "Fine"
@@ -751,15 +756,15 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
+					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "loaded"
+						"type": "AzureBlobStorageLocation",
+						"container": "loaded"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -842,7 +847,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		},
 		{
@@ -851,7 +856,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
+					"referenceName": "AzureBlobStorage2",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -859,8 +864,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "byLanguage",
-						"container": "curated"
+						"container": "by-language"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -870,7 +874,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage2')]"
 			]
 		},
 		{
@@ -879,7 +883,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
+					"referenceName": "AzureBlobStorage2",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -887,8 +891,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "byyear",
-						"container": "curated"
+						"container": "byyear"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -898,7 +901,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage2')]"
 			]
 		},
 		{
@@ -1016,7 +1019,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "OutputDataMovies",
 						"container": "curated"
 					},
 					"columnDelimiter": ",",
@@ -1039,6 +1041,19 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1117,17 +1132,21 @@
 						},
 						{
 							"dataset": {
-								"referenceName": "OutputCSV",
+								"referenceName": "MoviesByYear",
 								"type": "DatasetReference"
 							},
 							"name": "MoviesByYear"
 						},
 						{
 							"dataset": {
-								"referenceName": "OutputCSV",
+								"referenceName": "MoviesByLanguage",
 								"type": "DatasetReference"
 							},
-							"name": "MoviesByLanguage"
+							"name": "MoviesByLanguage",
+							"rejectedDataLinkedService": {
+								"referenceName": "AzureBlobStorage2",
+								"type": "LinkedServiceReference"
+							}
 						}
 					],
 					"transformations": [
@@ -1152,25 +1171,27 @@
 						"          popularity as string,",
 						"          production_companies as string,",
 						"          release_date as string,",
-						"          budget as string,",
-						"          revenue as string,",
-						"          runtime as string,",
+						"          budget as long,",
+						"          revenue as long,",
+						"          runtime as integer,",
 						"          status as string,",
 						"          tagline as string,",
-						"          vote_average as string,",
-						"          vote_count as string,",
+						"          vote_average as float,",
+						"          vote_count as integer,",
 						"          credits as string,",
 						"          keywords as string,",
 						"          recommendations as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> MoviesData",
+						"     ignoreNoFilesFound: false,",
+						"     maxColumns: 22) ~> MoviesData",
 						"MoviesData derive(year = toInteger(trim(right(release_date,4)))) ~> YearExtraction",
 						"YearExtraction aggregate(groupBy(year),",
 						"     MoviesCount = count()) ~> aggregateMoviesByYear",
 						"YearExtraction aggregate(groupBy(original_language),",
-						"     numberOfMovies = count()) ~> aggregateByTheLanguage",
+						"     numberOfMovies = count(),",
+						"     partitionBy('hash', 1)) ~> aggregateByTheLanguage",
 						"YearExtraction sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     skipDuplicateMapInputs: true,",
@@ -1180,15 +1201,16 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> MoviesByYear",
 						"aggregateByTheLanguage sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> MoviesByLanguage"
+						"     validateSchema: false) ~> MoviesByLanguage"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/IngestedDataCSV')]",
-				"[concat(variables('factoryId'), '/datasets/OutputCSV')]"
+				"[concat(variables('factoryId'), '/datasets/OutputCSV')]",
+				"[concat(variables('factoryId'), '/datasets/MoviesByYear')]",
+				"[concat(variables('factoryId'), '/datasets/MoviesByLanguage')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage2')]"
 			]
 		}
 	]
