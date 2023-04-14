@@ -19,7 +19,8 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"fileListPath": "curated",
+							"recursive": true,
+							"wildcardFileName": "*.CSV ",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -262,7 +263,8 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"fileListPath": "byyear",
+							"recursive": true,
+							"wildcardFileName": "*.CSV ",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -326,7 +328,8 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"fileListPath": "by-language",
+							"recursive": true,
+							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
