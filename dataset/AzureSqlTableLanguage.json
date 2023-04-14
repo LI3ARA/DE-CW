@@ -1,0 +1,26 @@
+{
+	"name": "AzureSqlTableLanguage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "year_released",
+				"type": "varchar"
+			},
+			{
+				"name": "numberOfMovies",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MoviesCountByLanguage"
+		}
+	}
+}
